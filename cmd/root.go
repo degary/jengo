@@ -14,4 +14,7 @@ func Execute() error {
 
 func init() {
 	rootCmd.AddCommand(initCmd)
+	rootCmd.AddCommand(deployCmd)
+	rootCmd.AddCommand(removeCmd)
+	rootCmd.AddCommand(rollbackCmd)
 }

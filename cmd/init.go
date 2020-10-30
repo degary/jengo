@@ -11,8 +11,8 @@ var desc = strings.Join([]string{
 	"-v 挂载选项等",
 }, "\n")
 var (
-	name  string
-	other string
+	iniName string
+	other   string
 )
 
 var initCmd = &cobra.Command{
@@ -25,6 +25,6 @@ var initCmd = &cobra.Command{
 }
 
 func init() {
-	initCmd.Flags().StringVarP(&name, "name", "n", "", "项目名称")
+	initCmd.Flags().StringVarP(&iniName, "name", "n", "", "项目名称")
 	initCmd.Flags().StringVarP(&other, "other", "o", "", desc)
 }
