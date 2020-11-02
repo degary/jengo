@@ -5,8 +5,6 @@ import (
 	"github.com/degary/jengo/internal/dockeroper"
 	"github.com/degary/jengo/internal/initpro"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
-	"path/filepath"
 	"strings"
 )
 
@@ -25,17 +23,7 @@ var initCmd = &cobra.Command{
 	Long:  "该子命令用于初始化项目",
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("initproject")
-		viper.SetConfigName("config")
-		viper.SetConfigType("toml")
-		viper.AddConfigPath(".")
-		err := viper.ReadInConfig()
-		if err != nil {
-			fmt.Printf("read config failed:%v", err)
-		}
-		projectPath := viper.GetString("projectpath")
-		backupPath := viper.GetString("backuppath")
-		proPath := filepath.Join(projectPath, iniName)
-		backPath := filepath.Join(backupPath, iniName)
+		proPath, backPath := initpro.InitViper(iniName, "config", "toml", ".")
 		//创建项目目录
 		if err := initpro.Makedir(proPath); err != nil {
 			fmt.Errorf("创建项目目录报错了: %s\n", err)
