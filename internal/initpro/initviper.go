@@ -19,5 +19,4 @@ func InitViper(iniName, configname, configtype, configpath string) (string, stri
 	proPath := filepath.Join(projectPath, iniName)
 	backPath := filepath.Join(backupPath, iniName)
 	return proPath, backPath
-
 }
