@@ -1,10 +1,12 @@
 package cmd
 
 import (
+	"bytes"
 	"fmt"
 	"github.com/degary/jengo/internal/dockeroper"
 	"github.com/degary/jengo/internal/initpro"
 	"github.com/spf13/cobra"
+	"os/exec"
 	"strings"
 )
 
@@ -36,12 +38,28 @@ var initCmd = &cobra.Command{
 		}
 		initpro.StartDocker()
 		containerList, err := dockeroper.ListContainer()
+		for _, containerName := range containerList {
+			if containerName == iniName {
+				fmt.Println("docker container已存在")
+				return
+			}
+		}
 		fmt.Println(containerList, err)
 		//写start.sh
 		bashPath := proPath + "/start.sh"
 		content := fmt.Sprintf(initpro.StartFile, profile, jvm)
 		err = initpro.CopyFile(bashPath, content)
-
+		if err != nil {
+			fmt.Println(err)
+		}
+		command := fmt.Sprintf("docker run -itd --name=%s nginx", iniName)
+		cmdOs := exec.Command("/bin/bash", "-c", command)
+		buf := bytes.Buffer{}
+		//将cmd2的标准输出设置为buf
+		cmdOs.Stdout = &buf
+		//运行命令，阻塞直到完成
+		cmdOs.Run()
+		fmt.Println(buf.String())
 	},
 }
 

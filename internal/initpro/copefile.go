@@ -11,6 +11,7 @@ func CopyFile(dest, content string) error {
 		fmt.Println(err)
 		return err
 	}
+	defer file.Close()
 	_, err = file.WriteString(content)
 	if err != nil {
 		fmt.Println(err)
